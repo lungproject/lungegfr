@@ -48,74 +48,74 @@ hlmIOfeature = load('./Results/HLMPDLpredicttests.txt');
 prehlmpdltest = hlmIOfeature(:,2);
 preharbinpdltest= harbinIOfeature(:,2);
 sphtraindata = unique(sphGroup2trains);
-% for i=1:length(sphtraindata)
-%     ind =  find(sphGroup2trains==sphtraindata(i)); 
-%     temp1 = presphtrain(ind,:);
-%     sphtrainpp(i,:)=mean(temp1); 
-%     
-%     temp1=sphtrainact76(ind,:,:,:);
-%     for j=1:256
-%          sphtrainact(i,j)=mean(temp1(:,:,j),'all');
-%     end
-%     
-%     [~,ind] = ismember(sphtrainmrn(ind(1)),sphclinical(:,1));
-%     sphtrainout(i,:) = [sphclinical(ind,1) sphtrainpp(i) double(sphtrainpp(i)>0.5) sphclinical(ind,2:end)];
-% 
-% end
+for i=1:length(sphtraindata)
+    ind =  find(sphGroup2trains==sphtraindata(i)); 
+     temp1 = presphtrain(ind,:);
+     sphtrainpp(i,:)=mean(temp1); 
+     
+    temp1=sphtrainact76(ind,:,:,:);
+     for j=1:256
+          sphtrainact(i,j)=mean(temp1(:,:,j),'all');
+    end
+     
+     [~,ind] = ismember(sphtrainmrn(ind(1)),sphclinical(:,1));
+     sphtrainout(i,:) = [sphclinical(ind,1) sphtrainpp(i) double(sphtrainpp(i)>0.5) sphclinical(ind,2:end)];
+ 
+ end
 % 1.mrn2.dls 3sex 4age 5histology 6smoking 7stage 8SUVmax 9EGFR	10ALK 11ROS1 12EGFRClass
-% 
-% sphtestdata = unique(sphGroup2tests);
-% for i=1:length(sphtestdata)
-%     ind =  find(sphGroup2tests==sphtestdata(i)); 
-%     temp1 = presphtest(ind,:);
-%     sphtestpp(i,:)=mean(temp1); 
-%     
-%     temp1=sphtestact76(ind,:,:,:);
-%     for j=1:256
-%          sphtestact(i,j)=mean(temp1(:,:,j),'all');
-%     end
-%     
-%     
-%     [~,ind] = ismember(sphtestmrn(ind(1)),sphclinical(:,1));
-%     sphtestout(i,:) = [sphclinical(ind,1) sphtestpp(i) double(sphtestpp(i)>0.5) sphclinical(ind,2:end)];
-% 
-% end
-% 
-% 
-% hebeitraindata = unique(hebeiGroup2trains);
-% for i=1:length(hebeitraindata)
-%     ind =  find(hebeiGroup2trains==hebeitraindata(i)); 
-%     temp1 = prehebeitrain(ind,:);
-%     hebeitrainpp(i,:)=mean(temp1); 
-%     
-%     temp1=hebeitrainact76(ind,:,:,:);
-%     for j=1:256
-%          hebeitrainact(i,j)=mean(temp1(:,:,j),'all');
-%     end
-%     
-%     
-%     [~,ind] = ismember(hebeitrainmrn(ind(1)),hebeiclinical(:,1));
-%     hebeitrainout(i,:) = [hebeiclinical(ind,1) hebeitrainpp(i) double(hebeitrainpp(i)>0.5) hebeiclinical(ind,2:end)];
-% 
-% end
+ 
+ sphtestdata = unique(sphGroup2tests);
+ for i=1:length(sphtestdata)
+     ind =  find(sphGroup2tests==sphtestdata(i)); 
+     temp1 = presphtest(ind,:);
+     sphtestpp(i,:)=mean(temp1); 
+     
+     temp1=sphtestact76(ind,:,:,:);
+     for j=1:256
+          sphtestact(i,j)=mean(temp1(:,:,j),'all');
+     end
+     
+     
+     [~,ind] = ismember(sphtestmrn(ind(1)),sphclinical(:,1));
+     sphtestout(i,:) = [sphclinical(ind,1) sphtestpp(i) double(sphtestpp(i)>0.5) sphclinical(ind,2:end)];
+ 
+ end
+ 
+ 
+ hebeitraindata = unique(hebeiGroup2trains);
+ for i=1:length(hebeitraindata)
+     ind =  find(hebeiGroup2trains==hebeitraindata(i)); 
+     temp1 = prehebeitrain(ind,:);
+     hebeitrainpp(i,:)=mean(temp1); 
+     
+     temp1=hebeitrainact76(ind,:,:,:);
+     for j=1:256
+          hebeitrainact(i,j)=mean(temp1(:,:,j),'all');
+     end
+     
+     
+     [~,ind] = ismember(hebeitrainmrn(ind(1)),hebeiclinical(:,1));
+     hebeitrainout(i,:) = [hebeiclinical(ind,1) hebeitrainpp(i) double(hebeitrainpp(i)>0.5) hebeiclinical(ind,2:end)];
+ 
+ end
 % 1.mrn	2.dls 3.sex 4.age	5.histology	6.smoking	7.stage 8.SUVmax	9.EGFR
-% 
-% hebeitestdata = unique(hebeiGroup2tests);
-% for i=1:length(hebeitestdata)
-%     ind =  find(hebeiGroup2tests==hebeitestdata(i)); 
-%     temp1 = prehebeitest(ind,:);
-%     hebeitestpp(i,:)=mean(temp1); 
-%     
-%     temp1=hebeitestact76(ind,:,:,:);
-%     for j=1:256
-%           hebeitestact(i,j)=mean(temp1(:,:,j),'all');
-%     end
-%     
-%         
-%     [~,ind] = ismember(hebeitestmrn(ind(1)),hebeiclinical(:,1));
-%     hebeitestout(i,:) = [hebeiclinical(ind,1) hebeitestpp(i) double(hebeitestpp(i)>0.5) hebeiclinical(ind,2:end)];
-% 
-% end
+ 
+ hebeitestdata = unique(hebeiGroup2tests);
+ for i=1:length(hebeitestdata)
+     ind =  find(hebeiGroup2tests==hebeitestdata(i)); 
+     temp1 = prehebeitest(ind,:);
+     hebeitestpp(i,:)=mean(temp1); 
+     
+     temp1=hebeitestact76(ind,:,:,:);
+     for j=1:256
+           hebeitestact(i,j)=mean(temp1(:,:,j),'all');
+     end
+     
+         
+     [~,ind] = ismember(hebeitestmrn(ind(1)),hebeiclinical(:,1));
+     hebeitestout(i,:) = [hebeiclinical(ind,1) hebeitestpp(i) double(hebeitestpp(i)>0.5) hebeiclinical(ind,2:end)];
+ 
+ end
 
 harbintestdata = unique(harbinGroup2tests);
 for i=1:length(harbintestdata)
