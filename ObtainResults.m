@@ -31,10 +31,10 @@ harbinIOfeature = load('./Results/Harbinpdlpredicttest.txt');
 
 sphtrainact76=readNPY('./Results/activations76sphtrain.npy');
 sphtestact76=readNPY('./Results/activations76sphtest.npy');
-hlmtestact76=readNPY('./Results/activations76hlmtests.npy');
+
 hebeitrainact76=readNPY('./Results/activations76hebeitrain.npy');
 hebeitestact76=readNPY('./Results/activations76hebeitest.npy');
-harbintestact76=readNPY('./Results/activations76harbintest.npy');
+
 
 
 presphtrain = sphtrainfeature(:,2);
@@ -123,10 +123,7 @@ for i=1:length(harbintestdata)
     temp1 = preharbinpdltest(ind,:);
     harbintestpp(i,:)=mean(temp1); 
     
-    temp1=harbintestact76(ind,:,:,:);
-    for j=1:256
-        harbintestact(i,j)=mean(temp1(:,:,j),'all');
-    end
+  
     [~,ind] = ismember(harbintestmrn(ind(1)),harbinclinical(:,1));
     harbintestout(i,:) = [harbinclinical(ind,1) harbintestpp(i) double(harbintestpp(i)>0.5) harbinclinical(ind,2:end)];
 
@@ -142,12 +139,7 @@ for i=1:length(hlmtestdata)
     temp1 = prehlmpdltest(ind,:);
     hlmpdltestpp(i,:)=mean(temp1); 
     
-    
-    temp1=hlmtestact76(ind,:,:,:);
-    for j=1:256
-        hlmtestact(i,j)=mean(temp1(:,:,j),'all');
-    end
-    
+ 
     [~,ind] = ismember(hlmtestmrn(ind(1)),hlmclinical(:,1));
     if ind
      hlmtestout(i,:) = [hlmclinical(ind,1) hlmtestpp(i) hlmpdltestpp(i) double(hlmtestpp(i)>0.5) double(hlmpdltestpp(i)>0.5) hlmclinical(ind,2:22)];
@@ -186,8 +178,6 @@ testact = [sphtestact;hebeitestact];
 
 trainact = zscore(trainact,0,2);
 testact = zscore(testact,0,2);
-harbintestact = zscore(harbintestact,0,2);
-hlmtestact = zscore(hlmtestact,0,2);
 
 
 cg_s = clustergram(trainact, 'Cluster', 'All','Colormap','redbluecmap','RowPDist','correlation','ColumnPDist','correlation')
@@ -211,62 +201,5 @@ for i=1:length(indr2)
 end
 
 
-cg_s3 = clustergram(harbintestact(:,indcs), 'Cluster', 'Column','Colormap','redbluecmap','RowPDist','correlation','ColumnPDist','correlation')
-
-indr3 = cg_s3.RowLabels;
-indrs3=[];
-for i=1:length(indr3)
-    indrs3 = [indrs3;str2num(indr3{i})];
-end
-
-cg_s4 = clustergram(hlmtestact(:,indcs), 'Cluster', 'Column','Colormap','redbluecmap','RowPDist','correlation','ColumnPDist','correlation')
-
-indr4 = cg_s4.RowLabels;
-indrs4=[];
-for i=1:length(indr4)
-    indrs4 = [indrs4;str2num(indr4{i})];
-end
-
-
-
-trainclin = trainall(indrs1,[4 6 7 8 10]);% sex;hist;smoke;stage;egfr
-testclin = testall(indrs2,[4 6 7 8 10]);
-harbinclin = harbintestout(indrs3,[4 6 7 8 10]);
-
-
-num = size(trainclin,1);
-trainclins=trainclin+[zeros(num,1) zeros(num,1)  ones(num,1) zeros(num,1) ones(num,1)];
-num = size(testclin,1);
-testclins=testclin+[zeros(num,1) zeros(num,1)  ones(num,1) zeros(num,1) ones(num,1)];
-num = size(harbinclin,1);
-harbinclins=harbinclin+[zeros(num,1) zeros(num,1)  ones(num,1) zeros(num,1) ones(num,1)];
-
-
-figure,heatmap(trainclins,'Colormap',redbluecmap)
-figure,heatmap(testclins,'Colormap',redbluecmap)
-figure,heatmap(harbinclins,'Colormap',redbluecmap)
-
-
-
-
-
-indh1 = find(hlmIOpp>=cutoff);indh2 =find(hlmIOpp<cutoff);
-X1 = [hlmprognosis(indh1,1) 1-hlmprognosis(indh1,2)];
-X2 = [hlmprognosis(indh2,1) 1-hlmprognosis(indh2,2)];
-figure, p1=logrank(X1,X2);
-
-X1 = [hlmprognosis(indh1,3) 1-hlmprognosis(indh1,4)];
-X2 = [hlmprognosis(indh2,3) 1-hlmprognosis(indh2,4)];
-figure, p2=logrank(X1,X2);
-
-
-indh1 = find(hlmvalpp>=cutoff);indh2 =find(hlmvalpp<cutoff);
-X1 = [hlmvalprognosis(indh1,1) 1-hlmvalprognosis(indh1,2)];
-X2 = [hlmvalprognosis(indh2,1) 1-hlmvalprognosis(indh2,2)];
-figure, p1=logrank(X1,X2);
-
-X1 = [hlmvalprognosis(indh1,3) 1-hlmvalprognosis(indh1,4)];
-X2 = [hlmvalprognosis(indh2,3) 1-hlmvalprognosis(indh2,4)];
-figure, p2=logrank(X1,X2);
 
 
